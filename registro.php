@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-5">
                     <h3 class="text-center text-muted">Regristro de Calzado</h3>
-                    <form method="POST" action="recibir.php">
+                    <form method="POST" action="recibir_calzado.php">
                         <div class="row mb-3">
                             <label class="col-sm-10">Codigo de calzado</label>
                             <div class="col-sm-10">
@@ -73,7 +73,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Codigo</th>
+                                    <th>ID</th>
                                     <th>Codigo</th>
                                     <th>Modelo</th>
                                     <th>Talla</th>

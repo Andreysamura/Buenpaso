@@ -28,12 +28,12 @@
                           
                         <div>
                             <label class="form-label">Escribe tu usuario</label>
-                            <input type="text" name="user" placeholder="Ingrese su usuario aquí" class="form-control">
+                            <input type="text" name="user" placeholder="Ingrese su usuario aquí" class="form-control" required>
                         </div>
             
                         <div>
                             <label class="form-label">Escribe tu contraseña</label>
-                            <input type="password" name="pass" placeholder="Ingrese su contraseña aquí" class="form-control">
+                            <input type="password" name="pass" placeholder="Ingrese su contraseña aquí" class="form-control" required>
                         </div>
             
                         <div>
