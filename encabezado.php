@@ -1,3 +1,4 @@
+<!-- <?php session_start(); if (@!$_SESSION["user"]) { header('location: ./'); } ?> -->
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -24,6 +25,12 @@
                             <li class="nav-item"><a class="nav-link" href="principal.php">Lista de calzado</a></li>
                             <li class="nav-item"><a class="nav-link" onclick="window.location.href='logout.php'">Cerrar Sesion</a></li>        
                         </u1>
+                            <!-- Colocar el nombre del usauario que inicio sesion-->
+                            <span class="navbar-text">
+                                <?php
+                                echo "Bienvenido: ".$_SESSION["tipo"];
+                                ?>
+                            </span>
                     </div> <!-- Cierre del div efecto menu -->
                 </div> <!-- Cierre del div contenedor principal -->
             </nav>

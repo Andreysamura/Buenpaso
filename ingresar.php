@@ -1,28 +1,38 @@
 <?php
+//crear la variable sesion de forma global
+session_start();
 
-include("conexion.php");
+//recibir las dos variables: usuario y contraseña por el metodo POST
 
 $user = $_POST["user"];
 $pass = $_POST["pass"];
-session_start();
-$_SESSION['user']=$user;
 
+//llamar al archivo conexion.php
+include("conexion.php");
 
-$consulta="SELECT * FROM usuarios WHERE usuario = '$user' AND contrasena ='$pass'";
+$consulta="SELECT * FROM usuario WHERE usuario = '$user' AND contrasena ='$pass'";
 $resultado=mysqli_query($conn,$consulta);
 
-$filas=mysqli_num_rows($resultado);
-
- if($filas)
+//si el resultado es mayor a cero, significa que el usuario existe
+ if(mysqli_num_rows($resultado)>0)
 {
-    header("location:principal.php");
-}else{
-    ?>
-    <?php
-    include("index.php");
-    echo "<script> alert('Usuario no existe'); window.location='index.php' </script>";
+    //crear variable sesion
+    $_SESSION["user"]=$resultado;
+    header("location: principal.php");
+    
+    //obtener el nombre completo de la persona que inicia sesion
+    while($fila=mysqli_fetch_assoc($resultado))
+    {
+        //creamos una variable de sesion que se llame nombre para obtener el nombre del usuario
+        $_SESSION["nombre"]=$fila['nombre'];
+        //agregar una variable de sesion para obtener el tipo de usuario
+        $_SESSION["tipo"]=$fila['tipo'];
+    }
 }
-
-mysqli_free_result($resultado);
+else
+{
+    header("location: index.php");
+    //echo "<script> alert('Usuario y/o contraseña no existe, verifica tus datos'); window.location='index.php' </script>";
+}
 mysqli_close($conn);
 ?>

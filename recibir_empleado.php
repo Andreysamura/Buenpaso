@@ -16,14 +16,14 @@ echo "El fecha es: ".$fecha."<br>";
 
 include("conexion.php");
 
-$sql="INSERT INTO altaempleado VALUES (id_empleado,'$curp','$nombre','$domicilio','$correo', '$telefono', $fecha)";
+$sql="INSERT INTO empleado VALUES (id_empleado,'$curp','$nombre','$domicilio','$correo', '$telefono', '$fecha')";
 
 //evaluar si se registro correctamente el calzado
 if(mysqli_query($conn,$sql))
 {
-    echo "Calzado registrado correctamente";
+    //echo "Calzado registrado correctamente";
     //regresar a la pagina anterior
-    //header("location: registro.php");
+    header("location: empleado.php");
 }
 else{
     echo "Error: ".$sql. "<br>".mysqli_error($conn);

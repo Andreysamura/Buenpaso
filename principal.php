@@ -1,3 +1,5 @@
+<!-- Comprobar si hay una sesion existente. -->
+<?php session_start(); if (@!$_SESSION["user"]) { header('location: ./'); } ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,62 +30,65 @@
         </div>
 
       <section>        
-        <div class="container bg-light">
-          <h1 class="text-center text-muted"> Listado de Calzado</h1>
-                <table class="table table-hover">
-                  <thead>
-                  <button type="button" class="btn btn-outline-primary">
-                        <a href="registro.php">Agregar</a>
-                    </button>
-                      <tr>
-                            <th>Codigo</th>
-                            <th>Modelo</th>
-                            <th>Talla</th>
-                            <th>Tipo</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Opciones</th> 
-                      </tr>
-                  </thead>
+        <div class="container table-responsive">
+          <div class="col-lg-11">
+            <h1 class="text-center text-muted"> Listado de Calzado</h1>
+            <table class="table table-hover text-center">
+              <thead>
+                  <!-- <a class="btn btn-outline-primary" href="registro.php">Agregar</a> -->
+                  <a class='btn btn-success' href='registro.php'> Agregar </a>
+                  <tr>
+                    <th>Codigo</th>
+                    <th>Modelo</th>
+                    <th>Talla</th>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Opciones</th> 
+                  </tr>
+              </thead>
 
-                    <?php
+                <?php
 
-                        include("conexion.php");
+                  include("conexion.php");
 
-                        if(isset($_GET["busqueda"])){
-                          $busqueda=$_GET["busqueda"];
-                          $consulta="SELECT * FROM altacalzado where modelo like '%$busqueda%'";
-                        }
-                        else{
-                          $consulta="SELECT * FROM altacalzado";
-                        }
+                  if(isset($_GET["busqueda"])){
+                  $busqueda=$_GET["busqueda"];
+                  $consulta="SELECT * FROM producto where modelo like '%$busqueda%' OR tipo like '%$busqueda%' OR talla like '%$busqueda%' OR precio like '%$busqueda%' OR cantidad like '%$busqueda%' OR fecha_registro like '%$busqueda%' OR codcalzado like '%$busqueda%'";
+                  }
+                  else{
+                      $consulta="SELECT * FROM producto";
+                  }
 
-                        $resultado=mysqli_query($conn,$consulta);
-                        if(mysqli_num_rows($resultado)>0)
+                  $resultado=mysqli_query($conn,$consulta);
+                  if(mysqli_num_rows($resultado)>0)
+                    {
+                      while($fila=mysqli_fetch_assoc($resultado))
                         {
-                            while($fila=mysqli_fetch_assoc($resultado))
-                            {
-                            echo "<tr>";
-                            echo "<td>".$fila['codcalzado']."</td>";
-                            echo "<td>".$fila['modelo']."</td>";
-                            echo "<td>".$fila['talla']."</td>";
-                            echo "<td>".$fila['tipo']."</td>";
-                            echo "<td>".$fila['precio']."</td>";
-                            echo "<td>".$fila['cantidad']."</td>";
-                            echo "<td> <a class='btn btn-danger' href='eliminar.php?codcalzado=".$fila['codcalzado']."'> Eliminar </a> </td>";
-                            echo "<td> <a class='btn btn-primary' href='actualizar_cal.php?codcalzado=".$fila['codcalzado']."&modelo=".$fila['modelo']."&talla=".$fila['talla']."&tipo=".$fila['tipo']."&precio=".$fila['precio']."&cantidad=".$fila['cantidad']."'> Modificar </a> </td>";
-                            echo "</tr>";
-                            }
-                        }else
-                        {
-                            echo "Sin resultados";
+                        echo "<tr>";
+                        echo "<td>".$fila['codcalzado']."</td>";
+                        echo "<td>".$fila['modelo']."</td>";
+                        echo "<td>".$fila['talla']."</td>";
+                        echo "<td>".$fila['tipo']."</td>";
+                        echo "<td>".$fila['precio']."</td>";
+                        echo "<td>".$fila['cantidad']."</td>";
+                        //solo el administrador modifica
+                        if ($_SESSION["tipo"] == 1) {
+                          //administrador
+                        echo "<td> <a class='btn btn-danger' href='eliminar.php?codcalzado=".$fila['codcalzado']."'> Eliminar </a> </td>";
+                        echo "<td> <a class='btn btn-primary' href='actualizar_cal.php?codcalzado=".$fila['codcalzado']."&modelo=".$fila['modelo']."&talla=".$fila['talla']."&tipo=".$fila['tipo']."&precio=".$fila['precio']."&cantidad=".$fila['cantidad']."'> Modificar </a> </td>";
+                        } else {
+                          //invitado
+                          }
                         }
-
-                    ?>
-
-                </table>
+                    } else {
+                        echo "Sin resultados";
+                    }
+                ?>
+            </table>
+          </div>
         </div>
-    </section>
+      </section>
     
     <footer class="container-fluid bg-light text-center p-3">
       <p>Todos los derechos reservados 2022</p>

@@ -7,7 +7,7 @@
 $codigo = $_GET['codcalzado'] ;
 
 //sql de eliminacion de calzado
-$consulta = "DELETE FROM altacalzado WHERE codcalzado=$codigo";
+$consulta = "DELETE FROM producto WHERE codcalzado=$codigo";
 
 if (mysqli_query($conn, $consulta)) {
   //echo "<br>Calzado eliminado correctamente";

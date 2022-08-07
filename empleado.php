@@ -1,3 +1,4 @@
+<?php session_start(); if (@!$_SESSION["user"]) { header('location: ./'); } ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +13,7 @@
     <?php //parte de encabezado
     include("encabezado.php")
     ?>  
-        <section class="container xl-5 bg-light"> <!-- Buscador -->
+        <section class="container bg-light">
             <div class="row">
                 <div class="col-lg-5"> 
                     <h3 class="text-center text-muted">Regristro de empleado</h3>
@@ -55,7 +56,7 @@
                         <div class="row mb-3">
                             <label class="col-sm-10">Fecha</label>
                             <div class="col-sm-10">
-                                <input type="text" name="fecha" class="form-control" placeholder="Fecha de registro">
+                                <input type="date" name="fecha" class="form-control" placeholder="Fecha de registro">
                             </div>
                         </div>
                         <div class="d-grid gap-2 col-6 mx-auto">
@@ -63,13 +64,15 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </section>
                 
-                <div class="col-lg-7">
-                    <h3 class="text-center text-muted"> Lista de empleados registrados</h3>
-                        <table class="table table-hover">
+                <div class="container bg-light table-responsive">
+                    <div class="col-lg-12">
+                        <h3 class="text-center text-muted"> Lista de empleados registrados</h3>
+                        <table class="table table-hover text-center">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>CURP</th>
                                     <th>Nombre</th>
                                     <th>Domicilio</th>
@@ -79,35 +82,34 @@
                                 </tr>
                             </thead>
 
-                                    <?php
-                                        include("conexion.php");
-                                        $consulta="SELECT * FROM altaempleado";
-                                        $resultado=mysqli_query($conn,$consulta);
-                                        if(mysqli_num_rows($resultado)>0)
+                                <?php
+                                    include("conexion.php");
+                                    $consulta="SELECT * FROM empleado";
+                                    $resultado=mysqli_query($conn,$consulta);
+                                    if(mysqli_num_rows($resultado)>0)
+                                    {
+                                        while($fila=mysqli_fetch_assoc($resultado))
                                         {
-                                            while($fila=mysqli_fetch_assoc($resultado))
-                                            {
-                                            echo "<tr>";
-                                            echo "<td>".$fila['id_empleado']."</td>";
-                                            echo "<td>".$fila['curp']."</td>";
-                                            echo "<td>".$fila['nombre']."</td>";
-                                            echo "<td>".$fila['domicilio']."</td>";
-                                            echo "<td>".$fila['correo']."</td>";
-                                            echo "<td>".$fila['telefono']."</td>";
-                                            echo "<td>".$fila['fecha_registro']."</td>";
-                                            echo "</tr>";
-                                            }
-                                        }else
+                                        echo "<tr>";
+                                        echo "<td>".$fila['curp']."</td>";
+                                        echo "<td>".$fila['nombre']."</td>";
+                                        echo "<td>".$fila['domicilio']."</td>";
+                                        echo "<td>".$fila['correo']."</td>";
+                                        echo "<td>".$fila['telefono']."</td>";
+                                        echo "<td>".$fila['fecha_empleado']."</td>";
+                                        echo "</tr>";
+                                        }
+                                    }else
                                         {
                                             echo "Sin resultados";
                                         }
 
-                                    ?>
-
+                                ?>
                         </table>
+                    </div>
                 </div>
-            </div>
-        </section>
+            
+        
 
         <footer class="container-fluid bg-light text-center p-3">
             <p>Todos los derechos reservados 2022</p>

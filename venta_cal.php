@@ -1,31 +1,33 @@
 <?php
 
-echo "<h2>Recibiendo informacion del formulario de registro</h2>";
+echo "<h2>Recibiendo informacion del formulario de venta</h2>";
 $codigo=$_POST['codigo'];
 echo "El codigo del producto es: ".$codigo."<br>";
+$nomcliente=$_POST['cliente'];
+echo "El codigo del producto es: ".$nomcliente."<br>";
 $modelo=$_POST['modelo'];
 echo "La descripcion es: ".$modelo."<br>";
 $talla=$_POST['talla'];
 echo  "La talla es :".$talla."<br>";
 $tipo=$_POST['tipo'];
-echo  "El tipo de calzado es :".$tipo."<br>";
+echo  "La talla es :".$tipo."<br>";
 $precio=$_POST['precio'];
 echo "El precio es: ".$precio."<br>";
 $cantidad=$_POST['cantidad'];
 echo "El cantidad es: ".$cantidad."<br>";
-$fecha_registro=$_POST['fecha'];
-echo "se registro el: ".$fecha_registro."<br>";
+$fecha_reg=$_POST['fecha_registro'];
+echo "La fecha de registro es: ".$fecha_reg."<br>";
 
 include("conexion.php");
 
-$sql="INSERT INTO producto VALUES (id_registro, $codigo,'$modelo',$talla,'$tipo', $precio, $cantidad, '$fecha_registro')";
+$sql="INSERT INTO venta VALUES (id_venta, $codigo, '$nomcliente','$modelo', '$tipo', $talla, $precio, $cantidad, '$fecha_reg')";
 
 //evaluar si se registro correctamente el calzado
 if(mysqli_query($conn,$sql))
 {
     echo "Calzado registrado correctamente";
     //regresar a la pagina anterior
-    header("location: registro.php");
+    header("location: venta.php");
 }
 else{
     echo "Error: ".$sql. "<br>".mysqli_error($conn);

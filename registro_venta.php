@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Venta</title>
+        <title>Registro_Venta</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
 
@@ -14,45 +14,34 @@
 include("encabezado.php")
 ?>
 
-
-            <!-- Buscador -->
-            <div class="container">
-                <nav class="navbar">
-                    <form class="container-fluid" method="GET" action="#">
-                    <div class="input-group">
-                        <input type="search" class="form-control" name="busqueda" placeholder="Buscar Calzado" aria-label="Username" aria-describedby="basic-addon1">
-                        <button class="btn btn-outline-success" type="submit" name="enviar">Buscar</button>
-                    </div>
-                    </form>
-                </nav>
-            </div>
-            
-        <section class="table-responsive">
+        <section class="table-responsive">        
             <div class="container">
                 <div class="col-lg-11">
-                    <h1 class="text-center text-muted"> Listado de Calzado Para Vender</h1>
-                    <a class="btn btn-success" href="registro_venta.php">Registro de ventas</a>
-                    <table class="table table-hover text-center">
-                        <tr>
-                            <th>Codigo</th>
-                            <th>Modelo</th>
-                            <th>Talla</th>
-                            <th>Tipo</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Opciones</th>
-                        </tr>
-                            
+                    <h1 class="text-center text-muted">Lista de ventas registradas</h1>
+                    <a class="btn btn-success" href='venta.php'>Regresar</a>
+                        <table class="table table-hover text-center">
+                            <tr>
+                                <th>ID</th>
+                                <th>Codigo Calzado</th>
+                                <th>Cliente</th>
+                                <th>Modelo</th>
+                                <th>Talla</th>
+                                <th>Tipo</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Fecha Registro</th>
+                                <th>Opciones</th>
+                            </tr>
                             <?php
 
                             include("conexion.php");
 
                             if(isset($_GET["busqueda"])){
                             $busqueda=$_GET["busqueda"];
-                            $consulta="SELECT * FROM producto where modelo like '%$busqueda%' AND cantidad>=1";
+                            $consulta="SELECT * FROM venta where modelo like '%$busqueda%'";
                             }
                             else{
-                            $consulta="SELECT * FROM producto WHERE cantidad>=1";
+                            $consulta="SELECT * FROM venta";
                             }
 
                             $resultado=mysqli_query($conn,$consulta);
@@ -61,18 +50,17 @@ include("encabezado.php")
                                 while($fila=mysqli_fetch_assoc($resultado))
                                 {
                                     echo "<tr>";
-                                    echo "<td>".$fila['codcalzado']."</td>";
+                                    echo "<td>".$fila['id_venta']."</td>";
+                                    echo "<td>".$fila['id_calzado']."</td>";
+                                    echo "<td>".$fila['nombre_cliente']."</td>";
                                     echo "<td>".$fila['modelo']."</td>";
                                     echo "<td>".$fila['talla']."</td>";
                                     echo "<td>".$fila['tipo']."</td>";
                                     echo "<td>".$fila['precio']."</td>";
                                     echo "<td>".$fila['cantidad']."</td>";
-                                    if ($_SESSION["tipo"] == 1) {
-                                    echo "<td> <a class='btn btn-primary' href='venta_calzado.php?codcalzado=".$fila['codcalzado']."&modelo=".$fila['modelo']."&talla=".$fila['talla']."&tipo=".$fila['tipo']."&precio=".$fila['precio']."&cantidad=".$fila['cantidad']."'> Vender </a> </td>";
+                                    echo "<td>".$fila['fecha_registro']."</td>";
+                                    echo "<td><a class='btn btn-primary' href='devolucion_calzado.php?id_venta=".$fila['id_venta']."&codcalzado=".$fila['id_calzado']."&modelo=".$fila['modelo']."&talla=".$fila['talla']."&tipo=".$fila['tipo']."&precio=".$fila['precio']."&cantidad=".$fila['cantidad']."'> Devolucion </a></td>";
                                     echo "</tr>";
-                                } else {
-                                    //invitado
-                                   }
                                 }
                             }else
                             {
@@ -81,10 +69,11 @@ include("encabezado.php")
 
                             ?>
 
-                    </table>
+                        </table>
                 </div>
-            </div>
+            </div>      
         </section>
+        
 
 
     <footer class="container-fluid bg-light text-center p-3">
